@@ -1,6 +1,8 @@
 import React from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../services/firebase";
+import { Form, Button, Input, notification } from "antd";
+import "./index.css";
 
 class Register extends React.Component {
   constructor() {
@@ -21,7 +23,7 @@ class Register extends React.Component {
     });
   };
 
-  handleRegister = async e => {
+  handleRegister = async (e) => {
     e.preventDefault();
     this.setState({
       loading: true,
@@ -31,7 +33,7 @@ class Register extends React.Component {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
     } catch {
-      console.log("error");
+
     } finally {
       this.setState({
         loading: false,
@@ -39,52 +41,48 @@ class Register extends React.Component {
     }
   };
   render() {
-    const {loading} = this.state;
+    const { loading } = this.state;
     return (
-      <div>
-        <fieldset>
-          <legend>Register</legend>
-          <form onSubmit={this.handleRegister}>
-            <label htmlFor="">
-              <p>First Name</p>
-              <input
-                name="firstName"
-                type="text"
-                placeholder="First Name"
-                onChange={this.handleChangeInput}
-              ></input>
-            </label>
-            <label htmlFor="">
-              <p>Last Name</p>
-              <input
-                name="lastName"
-                type="text"
-                placeholder="Last Name"
-                onChange={this.handleChangeInput}
-              ></input>
-            </label>
-            <label htmlFor="">
-              <p>Email</p>
-              <input
-                name="email"
-                type="email"
-                placeholder="Email"
-                onChange={this.handleChangeInput}
-              ></input>
-            </label>
-            <label htmlFor="">
-              <p>Password</p>
-              <input
-                name="password"
-                type="password"
-                placeholder="Password"
-                onChange={this.handleChangeInput}
-              ></input>
-            </label>
-            <hr />
-            <button>{loading ? "loading" : "Register"}</button>
-          </form>
-        </fieldset>
+      <div className="auth_container">
+        <Form layout="vertical" onSubmit={this.handleRegister}>
+          <Form.Item label="First Name">
+            <Input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              onChange={this.handleChangeInput}
+            />
+          </Form.Item>
+
+          <Form.Item label="Last Name">
+            <Input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              onChange={this.handleChangeInput}
+            />
+          </Form.Item>
+
+          <Form.Item label="Email">
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email"
+              onChange={this.handleChangeInput}
+            />
+          </Form.Item>
+
+          <Form.Item label="Password">
+            <Input.Password
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={this.handleChangeInput}
+            />
+          </Form.Item>
+
+          <Button type="primary" onClick={this.handleRegister} loading={loading}>Register</Button>
+        </Form>
       </div>
     );
   }
