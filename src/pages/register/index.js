@@ -33,7 +33,7 @@ class Register extends React.Component {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
     } catch {
-
+      
     } finally {
       this.setState({
         loading: false,
