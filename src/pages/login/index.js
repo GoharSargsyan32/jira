@@ -1,42 +1,76 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Form, Input, Button, message } from "antd";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../services/firebase";
+import { regexpValidation, ROUTE_CONSTANTS } from "../../core/utils/constants";
+import { Link } from "react-router-dom";
+import "./index.css";
 
 const Login = () => {
-  const [count, setCount] = useState(0);
-  const [page, setPage] = useState(1);
-  const [resultCount, SetResultCount] = useState(10);
-  const [showModal, setShowModal] = useState(false);
-  useEffect(() => {
-    fetch(`https://randomuser.me/api/?page=${page}3&results=10&seed=abc`)
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  }, [page]);
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
-  const handleChangePagination = (value) => {
-    setPage(value === "next" ? page + 1 : page - 1);
+  const handleLogin = async (values) => {
+    setLoading(true);
+    try {
+      const { email, password } = values;
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      form.resetFields();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
-      <button onClick={() => handleChangePagination("prev")}>Prev</button>
+    <div className="login">
+      <div className="illustration-login"></div>
+      <Form
+        className="form"
+        layout="vertical"
+        form={form}
+        onFinish={handleLogin}
+      >
+        <h1>Log In</h1>
 
-      <span>page={page}</span>
-
-      <button onClick={() => handleChangePagination("next")}>Next</button>
-      <button onClick={()=>setShowModal(!showModal)}>
-        {showModal ? 'close Modal' : 'open modal'}
-      </button>
-
-      {
-          showModal && (
-            <div>
-              <h2>Modal</h2>
-            </div>
-          )
-        }
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your email",
+            },
+          ]}
+        >
+          <Input type="email" placeholder="email" />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          tooltip="Password must be min 6 max 16 char..."
+          rules={[
+            {
+              required: true,
+              message: "Please input your password",
+            },
+            {
+              pattern: regexpValidation,
+              message: "Wrong Password",
+            },
+          ]}
+        >
+          <Input.Password placeholder="Password" />
+        </Form.Item>
+        <div className="btns">
+          <Button type="primary" htmlType="submit" loading={loading}>
+            Sign In
+          </Button>
+          <Link to={ROUTE_CONSTANTS.REGISTER}>Sign Up</Link>
+        </div>
+      </Form>
     </div>
   );
 };
