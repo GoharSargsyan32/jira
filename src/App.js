@@ -1,9 +1,9 @@
 import { useState } from "react";
-
+import {Login, Register} from "./pages/auth";
 import Header from "./components/global/Header";
-import Register from "./pages/register";
+// import Register from "./pages/register";
 import "./styles/global.css";
-import Login from "./pages/login";
+// import Login from "./pages/login";
 import {
   RouterProvider,
   createBrowserRouter,

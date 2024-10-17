@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button } from "antd";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../services/firebase";
 import { regexpValidation, ROUTE_CONSTANTS } from "../../../core/utils/constants";
 import { Link } from "react-router-dom";
-import "./index.css";
+import AuthWrapper from "../../../components/share/AuthWrapper";
+import registerBunner from "../../../core/images/login.jpg"
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -25,8 +26,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
-      <div className="illustration-login"></div>
+    <AuthWrapper title="Sign In" bunner={registerBunner} >
       <Form
         className="form"
         layout="vertical"
@@ -68,10 +68,10 @@ const Login = () => {
           <Button type="primary" htmlType="submit" loading={loading}>
             Sign In
           </Button>
-          <Link to={ROUTE_CONSTANTS.REGISTER}>Sign Up</Link>
+          <Link to={ROUTE_CONSTANTS.REGISTER}>Create Account</Link>
         </div>
       </Form>
-    </div>
+    </AuthWrapper>
   );
 };
 

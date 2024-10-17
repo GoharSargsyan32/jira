@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../services/firebase";
+import { auth } from "../../../services/firebase";
 import { Form, Button, Input, notification } from "antd";
-import "./index.css";
-import { regexpValidation } from "../../core/utils/constants";
+import { regexpValidation } from "../../../core/utils/constants";
 import { Link, useNavigate } from "react-router-dom";
-import { ROUTE_CONSTANTS } from "../../core/utils/constants";
+import { ROUTE_CONSTANTS } from "../../../core/utils/constants";
+import AuthWrapper from "../../../components/share/AuthWrapper";
+import loginBunner from "../../../core/images/login.jpg";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -28,8 +29,7 @@ const Register = () => {
   };
 
   return (
-    <div className="auth_container">
-      <div className="illustration-reg"></div>
+    <AuthWrapper title="Sign Up" bunner={loginBunner}>
       <Form
         className="form"
         layout="vertical"
@@ -93,6 +93,29 @@ const Register = () => {
           <Input.Password placeholder="Password" />
         </Form.Item>
 
+        <Form.Item
+          label="Config Password"
+          name="config"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password",
+            },
+            ({getFieldValue}) => ({
+              validator(_,value) {
+                if(!value || getFieldValue("password")===value) {
+                    return Promise.resolve();
+                }
+
+                return Promise.reject(new Error("the new password that u entered do not match"));
+              }
+
+            })
+          ]}
+        >
+          <Input.Password placeholder="Password" />
+        </Form.Item>
+
         <div className="btns">
           <Button type="primary" htmlType="submit" loading={loading}>
             Sign Up
@@ -100,7 +123,7 @@ const Register = () => {
           <Link to={ROUTE_CONSTANTS.LOGIN}>Sign In</Link>
         </div>
       </Form>
-    </div>
+    </AuthWrapper>
   );
 };
 export default Register;
