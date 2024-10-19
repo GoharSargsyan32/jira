@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification} from "antd";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../services/firebase";
 import { regexpValidation, ROUTE_CONSTANTS } from "../../../core/utils/constants";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import AuthWrapper from "../../../components/share/AuthWrapper";
 import registerBunner from "../../../core/images/login.jpg"
 
-const Login = () => {
+const Login = ({ setIsAuth}) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
@@ -17,9 +17,11 @@ const Login = () => {
       const { email, password } = values;
       const response = await signInWithEmailAndPassword(auth, email, password);
       form.resetFields();
-      console.log(response);
+      setIsAuth(true)
     } catch (error) {
-      console.log(error);
+      notification.error({
+        message: "Ivalid login",
+      })
     } finally {
       setLoading(false);
     }
