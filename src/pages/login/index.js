@@ -26,7 +26,6 @@ const Login = () => {
 
   return (
     <div className="login">
-      <div className="illustration-login"></div>
       <Form
         className="form"
         layout="vertical"
