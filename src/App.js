@@ -14,6 +14,8 @@ import { ROUTE_CONSTANTS } from "./core/utils/constants";
 import "./styles/global.css";
 import { auth } from "./services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { AuthContex } from "./Context/authContextProvider";
+
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -26,7 +28,8 @@ const App = () => {
     });
   }, []);
   return (
-    <LoadingWrapper>
+    <AuthContex.Provider value={{isAuth, x:10}}>
+      <LoadingWrapper>
       <RouterProvider
         router={createBrowserRouter(
           createRoutesFromElements(
@@ -62,6 +65,8 @@ const App = () => {
         )}
       />
     </LoadingWrapper>
+    </AuthContex.Provider>
+    
   );
 };
 
