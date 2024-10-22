@@ -1,13 +1,15 @@
 import React from "react";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../services/firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../../services/firebase";
 import { Form, Button, Input, notification } from "antd";
 import { regexpValidation } from "../../../core/utils/constants";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTE_CONSTANTS } from "../../../core/utils/constants";
 import AuthWrapper from "../../../components/share/AuthWrapper";
 import loginBunner from "../../../core/images/login.jpg";
+import { setDoc, doc } from "firebase/firestore";
+
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -16,10 +18,17 @@ const Register = () => {
 
   const handleRegister = async (values) => {
     setLoading(true);
-    const { email, password } = values;
+    const { firstName, lastName, email, password } = values;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const response = await createUserWithEmailAndPassword(auth, email,password);
+      const {uid} = response.user;
+      const createDoc = doc(db,"registerUser",uid);
+      await setDoc(createDoc, {
+        uid,firstName,lastName,email
+      });
+      console.log(uid);
+      // await signInWithEmailAndPassword(auth, email, password);
       navigate(ROUTE_CONSTANTS.LOGIN);
     } catch (error) {
       console.log(error);
@@ -39,7 +48,7 @@ const Register = () => {
         <h1>Registration</h1>
         <Form.Item
           label="First Name"
-          name="firtName"
+          name="firstName"
           rules={[
             {
               required: true,
@@ -128,86 +137,4 @@ const Register = () => {
 };
 export default Register;
 
-// class Register extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       firstName: "",
-//       lastName: "",
-//       email: "",
-//       password: "",
-//       loading: false,
-//     };
-//   }
 
-//   handleChangeInput = (e) => {
-//     const { name, value } = e.target;
-//     this.setState({
-//       [name]: value,
-//     });
-//   };
-
-//   handleRegister = async (e) => {
-//     e.preventDefault();
-//     this.setState({
-//       loading: true,
-//     });
-
-//     const { email, password } = this.state;
-//     try {
-//       await createUserWithEmailAndPassword(auth, email, password);
-//     } catch {
-
-//     } finally {
-//       this.setState({
-//         loading: false,
-//       });
-//     }
-//   };
-//   render() {
-//     const { loading } = this.state;
-//     return (
-//       <div className="auth_container">
-//         <Form layout="vertical" onSubmit={this.handleRegister}>
-//           <Form.Item label="First Name">
-//             <Input
-//               type="text"
-//               name="firstName"
-//               placeholder="First Name"
-//               onChange={this.handleChangeInput}
-//             />
-//           </Form.Item>
-
-//           <Form.Item label="Last Name">
-//             <Input
-//               type="text"
-//               name="lastName"
-//               placeholder="Last Name"
-//               onChange={this.handleChangeInput}
-//             />
-//           </Form.Item>
-
-//           <Form.Item label="Email">
-//             <Input
-//               type="email"
-//               name="email"
-//               placeholder="Email"
-//               onChange={this.handleChangeInput}
-//             />
-//           </Form.Item>
-
-//           <Form.Item label="Password">
-//             <Input.Password
-//               type="password"
-//               name="password"
-//               placeholder="Password"
-//               onChange={this.handleChangeInput}
-//             />
-//           </Form.Item>
-
-//           <Button type="primary" onClick={this.handleRegister} loading={loading}>Register</Button>
-//         </Form>
-//       </div>
-//     );
-//   }
-// }

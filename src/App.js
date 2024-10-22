@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Login, Register } from "./pages/auth";
 import LoadingWrapper from "./components/share/LoadingWrapper";
+import Profile from "./pages/profile";
 import MainLayout from "./components/Layouts/Main";
 import {
   RouterProvider,
@@ -17,6 +18,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { AuthContex } from "./Context/authContextProvider";
 
 
+
 const App = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -28,8 +30,8 @@ const App = () => {
     });
   }, []);
   return (
-    <AuthContex.Provider value={{isAuth, x:10}}>
-      <LoadingWrapper>
+    <AuthContex.Provider value={{isAuth}}>
+      <LoadingWrapper loading={loading}>
       <RouterProvider
         router={createBrowserRouter(
           createRoutesFromElements(
@@ -58,6 +60,12 @@ const App = () => {
                 path={ROUTE_CONSTANTS.CABINET}
                 element={
                   isAuth ? <Cabinet /> : <Navigate to={ROUTE_CONSTANTS.LOGIN} />
+                }
+              />
+              <Route
+                path={ROUTE_CONSTANTS.PROFILE}
+                element={
+                  isAuth ? <Profile /> : <Navigate to={ROUTE_CONSTANTS.LOGIN} />
                 }
               />
             </Route>
