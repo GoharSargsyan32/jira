@@ -2,15 +2,22 @@ import { Avatar, Dropdown, Typography, Flex, theme } from "antd";
 import { auth } from "../../../services/firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import "./index.css";
 import { ROUTE_CONSTANTS } from "../../../core/utils/constants";
-
+import "./index.css";
 
 
 const {useToken} = theme;
 const {Text} = Typography;
 
-const AuthProfileDropDown = () => {
+
+const getFullNameLetter = ({firstName,lastName}) => {
+  if(firstName && lastName) {
+    return `${firstName[0]} ${lastName[0]}`
+  }
+  return "-"
+}
+
+const AuthProfileDropDown = ({userProfileInfo}) => {
     const {token} = useToken();
     const navigate = useNavigate();
 
@@ -37,9 +44,7 @@ const AuthProfileDropDown = () => {
         {
             label: "Logout",
             key: "logout",
-            onClick: handleSignOut,
-
-            
+            onClick: handleSignOut           
 
         }
     ];
@@ -58,8 +63,8 @@ const AuthProfileDropDown = () => {
             }}>
                 <Flex vertical align="center" style={{padding:token.sizeMS}}>
                     <Avatar src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"/>
-                    <Text>John Smith</Text>
-                    <Text type="secondary" underline>johnsmith@gmail.com</Text>
+                    <Text>{userProfileInfo.firstName} {userProfileInfo.lastName}</Text>
+                    <Text type="secondary" underline>{userProfileInfo.email}</Text>
                 </Flex>
                 {menu}
             </div>
@@ -67,7 +72,7 @@ const AuthProfileDropDown = () => {
       }}
       >
         <Avatar size={"large"} className="user_profile_avatar">
-          J S
+          {getFullNameLetter(userProfileInfo)}
         </Avatar>
       </Dropdown>
     </div>

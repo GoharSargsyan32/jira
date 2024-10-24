@@ -8,7 +8,7 @@ import "./index.css";
 
 
 const Header = () => {
-  const {isAuth} = useContext(AuthContex);
+  const {isAuth, userProfileInfo} = useContext(AuthContex);
   return (
     <div className="main_header">
       <Flex justify="space-between" align="center">
@@ -16,7 +16,7 @@ const Header = () => {
         <div>
           {
           
-            isAuth ? <AuthProfileDropDown/> : <Link to={ROUTE_CONSTANTS.LOGIN}><Button>Sign In</Button></Link> 
+            isAuth ? <AuthProfileDropDown userProfileInfo = {userProfileInfo}/> : <Link to={ROUTE_CONSTANTS.LOGIN}><Button>Sign In</Button></Link> 
           }
         </div>
       </Flex>

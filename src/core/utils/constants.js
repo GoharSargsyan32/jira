@@ -5,4 +5,8 @@ export const ROUTE_CONSTANTS = {
     REGISTER: "/register",
     CABINET: "/cabinet",
     PROFILE: "/profile"
+};
+
+export const FIRESTORE_PATH_NAMES = {
+    REGISTERED_USERS:"registered_users"
 }
