@@ -34,7 +34,7 @@ const handleGetUserData = useCallback(async(uid)=>{
   if(response.exists()) {
         setUserProfileInfo(response.data());
       }
-     } , []);
+     } , []); 
 
 
    useEffect(() => {

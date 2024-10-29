@@ -3,11 +3,11 @@ import { AuthContex } from "../../Context/authContextProvider";
 import { useContext, useEffect, useState } from "react";
 import { db } from "../../services/firebase";
 import { FIRESTORE_PATH_NAMES } from "../../core/utils/constants";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import "./index.css";
 
 const Profile = () => {
-  const { userProfileInfo, handleGetUsersData } = useContext(AuthContex);
+  const { userProfileInfo, handleGetUserData } = useContext(AuthContex);
   console.log(userProfileInfo);
   const [form] = Form.useForm();
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -22,8 +22,8 @@ const Profile = () => {
     try {
       const userDocRef = doc(db, FIRESTORE_PATH_NAMES.REGISTERED_USERS, uid);
       await updateDoc(userDocRef, values);
-      handleGetUsersData(uid);
-      notification.info({
+      handleGetUserData(uid);
+      notification.success({
         message: "User data successfully updated",
       });
     } catch (error) {
@@ -38,9 +38,9 @@ const Profile = () => {
   return (
     <div className="form_page_container">
       <Form layout="vertical" form={form} onFinish={handleEditUserProfile}>
-        <Form.Item label="profile image">
+        <Form.Item label="Profile Image">
           <Upload>
-            
+
           </Upload>
         </Form.Item>
 
@@ -50,7 +50,7 @@ const Profile = () => {
           rules={[
             {
               required: true,
-              message: "please input your firstname",
+              message: "please input your First Name!",
             },
           ]}
         >
@@ -63,7 +63,7 @@ const Profile = () => {
           rules={[
             {
               required: true,
-              message: "please input your lastname",
+              message: "please input your Last Name!",
             },
           ]}
         >
@@ -80,7 +80,7 @@ const Profile = () => {
           rules={[
             {
               required: true,
-              message: "please input your phoneNumber",
+              message: "please input your Phone Number!",
             },
           ]}
         >
