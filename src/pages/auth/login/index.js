@@ -5,10 +5,13 @@ import { auth } from "../../../services/firebase";
 import { regexpValidation, ROUTE_CONSTANTS } from "../../../core/utils/constants";
 import { Link } from "react-router-dom";
 import AuthWrapper from "../../../components/share/AuthWrapper";
-import registerBunner from "../../../core/images/login.jpg"
+import registerBunner from "../../../core/images/login.jpg";
+import { useDispatch } from "react-redux";
+import { setIsAuth } from "../../../state-managment/slices/userProfile";
 
-const Login = ({ setIsAuth}) => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const handleLogin = async (values) => {
@@ -17,7 +20,9 @@ const Login = ({ setIsAuth}) => {
       const { email, password } = values;
       const response = await signInWithEmailAndPassword(auth, email, password);
       form.resetFields();
-      setIsAuth(true)
+      dispatch(setIsAuth(true));
+
+     
     } catch (error) {
       notification.error({
         message: "Ivalid login",

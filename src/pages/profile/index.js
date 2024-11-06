@@ -1,17 +1,18 @@
 import { Button, Form, Input, notification, Upload } from "antd";
-import { AuthContex } from "../../Context/authContextProvider";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../../services/firebase";
 import { FIRESTORE_PATH_NAMES } from "../../core/utils/constants";
 import { doc, updateDoc } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserProfileInfo } from "../../state-managment/slices/userProfile";
 import "./index.css";
 
 const Profile = () => {
-  const { userProfileInfo, handleGetUserData } = useContext(AuthContex);
-  console.log(userProfileInfo);
+  const dispatch = useDispatch();
+  const {authUserInfo:{userData}} = useSelector((store) => store.userProfile);
   const [form] = Form.useForm();
   const [buttonLoading, setButtonLoading] = useState(false);
-  const { uid, ...restData } = userProfileInfo;
+  const { uid, ...restData } = userData;
 
   useEffect(() => {
     form.setFieldsValue(restData);
@@ -22,7 +23,7 @@ const Profile = () => {
     try {
       const userDocRef = doc(db, FIRESTORE_PATH_NAMES.REGISTERED_USERS, uid);
       await updateDoc(userDocRef, values);
-      handleGetUserData(uid);
+      dispatch(fetchUserProfileInfo);
       notification.success({
         message: "User data successfully updated",
       });
@@ -39,9 +40,7 @@ const Profile = () => {
     <div className="form_page_container">
       <Form layout="vertical" form={form} onFinish={handleEditUserProfile}>
         <Form.Item label="Profile Image">
-          <Upload>
-
-          </Upload>
+          <Upload></Upload>
         </Form.Item>
 
         <Form.Item
