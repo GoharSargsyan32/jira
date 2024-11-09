@@ -1,14 +1,12 @@
-
-import { Flex, Button } from "antd";
-import AuthProfileDropDown from "../../share/AuthProfileDropDown";
-import { Link } from "react-router-dom";
-import { ROUTE_CONSTANTS } from "../../../core/utils/constants";
-import { useSelector } from "react-redux";
-import "./index.css";
-
+import { Flex, Button } from 'antd';
+import AuthProfileDropDown from '../../sheard/AuthProfileDropDown';
+import { Link } from 'react-router-dom';
+import { ROUTE_CONSTANTS } from '../../../core/utils/constants';
+import { useSelector } from 'react-redux';
+import './index.css';
 
 const Header = () => {
-  const {authUserInfo:{isAuth,userData}} = useSelector((store)=>store.userProfile);
+  const { authUserInfo: { isAuth, userData } } = useSelector((store) => store.userProfile);
 
   return (
     <div className="main_header">
@@ -18,13 +16,12 @@ const Header = () => {
         </div>
         <div>
           {
-          
-            isAuth ? <AuthProfileDropDown userProfileInfo = {userData}/> : <Link to={ROUTE_CONSTANTS.LOGIN}><Button>Sign In</Button></Link> 
+            isAuth ?  <AuthProfileDropDown userProfileInfo={userData}/> : <Link to={ROUTE_CONSTANTS.LOGIN}><Button>Sign in</Button></Link>
           }
         </div>
       </Flex>
     </div>
-  );
+  )
 };
 
 export default Header;
