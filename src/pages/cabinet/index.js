@@ -1,7 +1,26 @@
+import { useState } from "react";
+import { Button } from "antd";
+import AddIssueModal from "../../components/sheard/IssueModal/Add";
+
 const Cabinet = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  }   
+
+  const handleClose = () => {
+    setShowModal(false);
+  }  
+
+
   return (
     <div>
-      <h2>Cabinet</h2>
+      <Button type="primary" onClick={handleOpenModal} >
+        Create Issue
+      </Button>
+
+      <AddIssueModal onClose={handleClose} isOpen={showModal}/>
     </div>
   )
 };

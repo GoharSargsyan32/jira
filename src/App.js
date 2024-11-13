@@ -8,8 +8,9 @@ import { ROUTE_CONSTANTS } from './core/utils/constants';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfileInfo } from './state-managment/slices/userProfile';
-
+import Cabinet from './pages/cabinet';
 import './styles/global.css';
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,10 @@ const App = () => {
                     <Route
                       path={ROUTE_CONSTANTS.PROFILE}
                       element={<Profile/>}
+                    />
+                    <Route
+                    path={ROUTE_CONSTANTS.CABINET}
+                    element={<Cabinet/>}
                     />
 
                   </Route>
