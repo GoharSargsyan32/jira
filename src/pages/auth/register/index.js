@@ -6,7 +6,7 @@ import { regexpValidation, ROUTE_CONSTANTS, FIRESTORE_PATH_NAMES } from '../../.
 import { setDoc, doc } from 'firebase/firestore';
 import AuthWrapper from '../../../components/sheard/AuthWrapper';
 import { Link, useNavigate } from 'react-router-dom';
-import registerBanner from '../../../core/images/auth-register.jpg';
+import registerBanner from '../../../core/images/reg.jpg';
 
 
 const Register = () => {

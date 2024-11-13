@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../services/firbase';
 import { ROUTE_CONSTANTS } from '../../../core/utils/constants';
 import AuthWrapper from '../../../components/sheard/AuthWrapper';
-import loginBanner from '../../../core/images/auth-login.jpg';
+import loginBanner from '../../../core/images/login.jpg';
 import { useDispatch } from 'react-redux';
 import { fetchUserProfileInfo } from '../../../state-managment/slices/userProfile';
 import { Link } from 'react-router-dom';
