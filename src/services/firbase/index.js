@@ -6,7 +6,7 @@ import { getStorage } from 'firebase/storage';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAPvvr6NxEHdIhxnZRbWn9hKbWbWi-nJp8",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "jira-cff57.firebaseapp.com",
   databaseURL: "https://jira-cff57-default-rtdb.firebaseio.com",
   projectId: "jira-cff57",

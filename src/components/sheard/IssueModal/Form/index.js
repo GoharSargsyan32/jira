@@ -1,5 +1,10 @@
 import { Form, Input, Select, Space } from "antd";
-import { ISSUE_OPTIONS } from "../../../../core/utils/issues";
+import {
+  ISSUE_OPTIONS,
+  ISSUE_PRIORITY_OPTIONS,
+} from "../../../../core/utils/issues";
+import Editor from "../../Editor";
+
 
 const ModalForm = ({ form, onFinish }) => {
   return (
@@ -14,10 +19,16 @@ const ModalForm = ({ form, onFinish }) => {
           },
         ]}
       >
-        <Input type="trxt" placeholder="Issue Name" rules={[{
-            required: true,
-            message: "Please input Issue Type",
-        }]} />
+        <Input
+          type="trxt"
+          placeholder="Issue Name"
+          rules={[
+            {
+              required: true,
+              message: "Please input Issue Type",
+            },
+          ]}
+        />
       </Form.Item>
 
       <Form.Item name="type" label="Issue Type">
@@ -34,6 +45,46 @@ const ModalForm = ({ form, onFinish }) => {
           })}
         </Select>
       </Form.Item>
+      <Form.Item
+        name="description"
+        label="Description"
+        rules={[
+          {
+            required: true,
+            message: "Please input Issue Description",
+          },
+        ]}
+      >
+        <Editor />
+      </Form.Item>
+
+      <Form.Item
+        name="priority"
+        label="Priority"
+        rules={[
+          {
+            required: true,
+            message: "Please Select Priority",
+          },
+        ]}
+      >
+        <Select placeholder="Priority">
+          {Object.values(ISSUE_PRIORITY_OPTIONS).map(
+            ({ value, icon, label }) => {
+              return (
+                <Select.Option value={value} key={value}>
+                  <Space>
+                    {icon}
+                    <span>{label}</span>
+                  </Space>
+                </Select.Option>
+              );
+            }
+          )}
+        </Select>
+      </Form.Item>
+
+
     </Form>
   );
 };
