@@ -5,8 +5,13 @@ import { generateUID } from "../../../../core/helpers/generateUID";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../services/firbase";
 import { FIRESTORE_PATH_NAMES } from "../../../../core/utils/constants";
+import { useDispatch } from "react-redux";
+import { fetchIssuesDate } from "../../../../state-managment/slices/issues";
+
 
 const AddIssueModal = ({ isOpen, onClose }) => {
+  const dispatch = useDispatch();
+
   const [form] = Form.useForm();
   const [buttonLoading, setButtonLoading] = useState(false);
 
@@ -27,6 +32,7 @@ const AddIssueModal = ({ isOpen, onClose }) => {
       notification.success({
         message: "Your task created",
       });
+      dispatch(fetchIssuesDate());
     } catch {
       notification.error({
         message: "Error",
