@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "../../../services/firbase";
 import { getDocs, collection } from "firebase/firestore";
 import { FIRESTORE_PATH_NAMES } from "../../../core/utils/constants";
+import { FileFilled } from "@ant-design/icons";
 
 const initialState = {
   data: [],
   isLoading: false,
 };
 
-export const fetchIssuesDate = createAsyncThunk(
-  "data/fetchData",
+export const fetchIssuesDate = createAsyncThunk("data/fetchData",
   async () => {
     const queryData = await getDocs(
       collection(db, FIRESTORE_PATH_NAMES.ISSUES)
@@ -36,7 +36,13 @@ const issueSlice = createSlice({
         state.isLoading = false;
         state.data = action.payload;
         console.log(action.payload)
-      });
+      })
+      .addCase(fetchIssuesDate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.data = [];
+        state.error = action.payload;
+      })
   },
 });
+
 export default issueSlice.reducer;
