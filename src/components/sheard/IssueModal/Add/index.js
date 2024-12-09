@@ -7,6 +7,7 @@ import { db } from "../../../../services/firbase";
 import { FIRESTORE_PATH_NAMES } from "../../../../core/utils/constants";
 import { useDispatch } from "react-redux";
 import { fetchIssuesDate } from "../../../../state-managment/slices/issues";
+import { taskStatuses } from "../../../../core/utils/issues";
 
 
 const AddIssueModal = ({ isOpen, onClose }) => {
@@ -22,6 +23,7 @@ const AddIssueModal = ({ isOpen, onClose }) => {
     const taskModel = {
       taskId,
       ...values,
+      status: taskStatuses.TODO.key,
       date: new Date().toLocaleDateString(),
     };
     try {
