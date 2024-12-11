@@ -10,13 +10,12 @@ export const transformIssueData = (data) => {
 
     data.forEach(item => {
         if(container.hasOwnProperty(item.status)) {
-            //container[item.status] = [...container[item.status], item]
             container[item.status].push(item);
         }
         
     });
     
-    console.log(container);    
+    return container;    
 
 }
 

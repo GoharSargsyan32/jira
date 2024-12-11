@@ -27,6 +27,14 @@ export const COLOR_TYPES = {
   BLUE: "#4fade6",
 };
 
+
+// export const TASK_STATUS_TYPE = {
+//   TODO: 0,
+//   IN_PROGRESS: 1,
+//   TEST: 2,
+//   DONE: 3
+// }
+
 export const taskStatuses = {
   TODO: {
     key: 0,
