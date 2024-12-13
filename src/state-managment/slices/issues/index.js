@@ -3,9 +3,11 @@ import { db } from "../../../services/firbase";
 import { getDocs, collection } from "firebase/firestore";
 import { FIRESTORE_PATH_NAMES } from "../../../core/utils/constants";
 import { transformIssueData } from "../../../core/helpers/transformissueData";
+import Column from "antd/es/table/Column";
 
 const initialState = {
   data: {},
+  error: null,
   isLoading: false,
 };
 
@@ -23,7 +25,35 @@ export const fetchIssuesDate = createAsyncThunk("data/fetchData", async () => {
 const issueSlice = createSlice({
   name: "issue",
   initialState,
-  reducers: {},
+  reducers: {
+    changeIssueColumns:(state, action) => {
+      const columns = state.data;
+      const { destination, source} = action.payload;
+      const sourceColumnItems = [...columns[source.droppableId]];
+      const destinationColumnItems = [...columns[destination.droppableId]];
+      const [removedItem] = sourceColumnItems.splice(source.index, 1);
+      destinationColumnItems.splice(destination.index,0, removedItem);
+
+      let changedColumns = {};
+      if(source.droppableId !== destination.droppableId) {
+        changedColumns = {
+          ...columns,
+          [source.droppableId]: sourceColumnItems,
+          [destination.droppableId]: destinationColumnItems
+        }
+      } else {
+        sourceColumnItems.splice(destination.index, 0 , removedItem);
+        changedColumns = {
+          ...columns,
+          [source.droppableId]: sourceColumnItems
+        }
+      }
+
+      state.data = changedColumns;
+      
+    }
+  },
+
   extraReducers: (promise) => {
     promise
       .addCase(fetchIssuesDate.pending, (state) => {
@@ -42,5 +72,7 @@ const issueSlice = createSlice({
       });
   },
 });
+
+export const { changeIssueColumns } = issueSlice.actions;
 
 export default issueSlice.reducer;
